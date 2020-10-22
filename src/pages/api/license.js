@@ -7,7 +7,7 @@ export default async (req, res) => {
   try {
     const { db } = await connect()
     console.log(db)
-    const response = await db.collection('licenses').find({}).toArray()
+    const response = await db.collection('users').find({}).toArray()
     console.log(response)
     res.status(200).json(response)
   } catch (error) {
