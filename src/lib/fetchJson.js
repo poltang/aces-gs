@@ -3,7 +3,7 @@ export default async function fetcher(...args) {
     const response = await fetch(...args)
 
     const data = await response.json()
-
+    console.log(data)
     if (response.ok) {
       return data
     }
