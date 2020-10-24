@@ -22,7 +22,7 @@ html {
   Ubuntu, Cantarell, Fira Sans, Droid Sans, sans-serif; */
 }
 body {
-  /* background-color: rgba(250, 252, 255); */
+  background-color: rgba(250, 252, 255);
 }
 th, td {
   line-height: 2.5rem;

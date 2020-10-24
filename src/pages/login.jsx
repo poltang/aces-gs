@@ -5,7 +5,7 @@ import fetchJson from 'lib/fetchJson'
 export default function LoginPage() {
   const { user } = useUser({ redirecTo: false })
   const [errorMsg, setErrorMsg] = useState('')
-  const { mutateUser } = useUser({ redirecTo: '/dashboard', redirectIfFound: true })
+  const { mutateUser } = useUser({ redirecTo: user?.license, redirectIfFound: true })
 
   async function handleSubmit(e) {
     e.preventDefault()
