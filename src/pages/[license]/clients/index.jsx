@@ -2,7 +2,6 @@ import Link from 'next/link'
 import useUser from 'lib/useUser'
 import Layout from "components/Layout";
 import { connect } from 'lib/database'
-import ProjectGrid from 'components/ProjectGrid'
 import NotFound from 'components/404'
 
 export async function getStaticPaths() {
@@ -51,7 +50,7 @@ export default function Clients({ info, clients }) {
 
   return (
     <Layout license={info} user={user} nav="clients">
-      <div className="bg-white pb-4 border-b border-gray-300">
+      <div className="bg-white pb-4 border-b border-gray-400">
         <div className="max-w-5xl mx-auto antialiased pt-6 px-4 sm:px-6">
           <div className="flex flex-col">
             <div className="text-center sm:text-left">

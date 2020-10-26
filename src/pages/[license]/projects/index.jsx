@@ -28,7 +28,8 @@ export async function getStaticProps({ params }) {
     info = JSON.parse(info)
     console.log(info)
 
-    const rs2 = await db.collection('projects').find({license: info.slug}).toArray()
+    // const rs2 = await db.collection('projects').find({license: info.slug}).sort({ _id: -1 }).toArray()
+    const rs2 = await db.collection('projects').find({license: params.license}).sort({ _id: -1 }).toArray()
     let projects = JSON.stringify(rs2)
     projects = JSON.parse(projects)
     console.log("PROJECTS", projects)
@@ -45,25 +46,25 @@ export async function getStaticProps({ params }) {
 export default function Projects({ info, projects }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!info || !user || info.slug != user?.license) return NotFound
+  if(!info || !user || info?.slug != user?.license) return NotFound
 
   return (
     <Layout license={info} nav="projects">
-      <div className="relative bg-indigos-100 bg-opacity-25 pb-20">
-        <div className="GRADIENT w-full absolute py-24 z-0 bg-gradient-to-b from-indigo-100 opacity-25">
+      <div className="relative sbg-indigos-100 sbg-opacity-25">
+        {/* <div className="GRADIENT w-full absolute py-24 z-0 bg-gradient-to-b from-indigo-100 opacity-25">
           <div className="h-64"></div>
-        </div>
+        </div> */}
         <div className="relative z-10 max-w-5xl mx-auto antialiased py-10 px-4 sm:px-6">
-          <div className="grid grid-cols-2 gap-10">
+          <div className="grid grid-cols-2 gap-8 sm:gap-10">
             {projects?.map(project => (
-            <div className="col-span-1">
-              <ProjectGrid slug="" project={project} />
+            <div className="col-span-2 sm:col-span-1">
+              <ProjectGrid key={project.license} slug="" project={project} />
             </div>
             ))}
 
           </div>
           {/*  */}
-          <pre className="pre bg-blue-100 border border-l-4 border-indigo-200 my-8">PROJECTS {JSON.stringify(projects, null, 2)}</pre>
+          {/* <pre className="pre bg-blue-100 border border-l-4 border-indigo-200 my-8">PROJECTS {JSON.stringify(projects, null, 2)}</pre> */}
         </div>
       </div>
     </Layout>

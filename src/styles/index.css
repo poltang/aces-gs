@@ -22,27 +22,33 @@ html {
   Ubuntu, Cantarell, Fira Sans, Droid Sans, sans-serif; */
 }
 body {
-  background-color: rgba(250, 252, 255);
+  /* background-color: rgba(130, 142, 155); */
 }
+#aces-main {
+  background-color: rgb(249, 252, 255);
+}
+#aces-main.white {
+  background-color: rgb(255, 255, 255);
+}
+#aces-footer {
+  /* background-color: rgb(243, 246, 249); */
+  background-color: rgb(237, 241, 250);
+}
+
 th, td {
-  line-height: 2.5rem;
-}
-th {
-  padding: 0 0.5rem;
+  padding: 8px;
   text-align: left;
-}
-td {
-  padding: 0 0.5rem;
+  /* line-height: 2.5rem; */
 }
 .pre {
-  display: block;
+  width: 100%;
   padding: 4px;
-  /* margin: 16px 0; */
+  margin: 16px 0;
   max-height: 300px;
   font-size: 12px;
-  /* background-color: #ffffff; */
-  /* border: 1px solid #f0f0f3; */
-  /* border-left: 4px solid #ebebeb; */
+  background-color: #f8f8fa;
+  border: 1px solid #f0f0f3;
+  border-left: 4px solid #ebebeb;
   overflow: scroll;
 }
 

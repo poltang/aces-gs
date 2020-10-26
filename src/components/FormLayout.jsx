@@ -5,47 +5,30 @@ import NavUser from './NavUser'
 
 export default class FormLayout extends React.Component {
 
-  // handleScroll = function(e) {
-  //   if (window.pageYOffset > 55) {
-  //     document.getElementById('aces-main').classList.add('scrolled');
-  //   } else {
-  //     document.getElementById('aces-main').classList.remove('scrolled');
-  //   }
-  // }
-
-  // componentDidMount () {
-  //   window.document.body.classList.remove("bg-purple-500")
-  //   window.addEventListener('scroll', this.handleScroll, false);
-  // }
-
-  // componentWillUnmount() {
-  //   window.removeEventListener('scroll', this.handleScroll, false);
-  // }
-
   render() {
     return (
       <>
         <Head>
           <title>ACES - New Client</title>
         </Head>
-        <main id="aces-main">
-          {/* <NavUser user={this.props.user} licenseName={this.props.license.licenseName} /> */}
-          {/* <NavLicense slug={this.props.license.slug} selected={this.props.nav} /> */}
-          <div className="z-50 fixed w-full bg-white border-b border-gray-400">
-            <div id="" className="max-w-5xl mx-auto py-3 px-4 sm:px-6">
-              <div className="flex flex-row items-center justify-center">
-                <div id="ac-logo" className="h-8 w-16 mr-4 bg-pink-200"></div>
-                <div className="flex-grows">
-                  <span className="text-gray-800 font-semibold">ACES Form</span>
-                </div>
+        <main id="aces-main" className="min-h-screen">
+          <div className="min--screen bgs-gray-100 bg-gradient-to-b from-gray-300 px-4 sm:px-6 pb-24">
+            <div className="max-w-xl mx-auto antialiased">
+              <div className="text-xs text-center font-bold pt-8 pb-2">
+                <span className="rounded-sm bg-blue-800 bg-opacity-25 text-white border-l border-b border-gray-100 px-2 py-1">ACES Form</span>
               </div>
+              <h1 className="text-xl text-center text-blue-900 font-semibold opacity-50 mb-8">
+                {this.props.license.licenseName}
+              </h1>
+            </div>
+            <div className="max-w-xl mx-auto">
+              {this.props.children}
             </div>
           </div>
-          {/*  */}
-          <div className="">
-            {this.props.children}
-          </div>
         </main>
+        <footer id="aces-footer" className="h-64 text-xs text-gray-500 border-t border-gray-300">
+          <p className="text-center my-6">GAIA ACES</p>
+        </footer>
       </>
     )
   }

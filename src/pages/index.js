@@ -1,4 +1,5 @@
 import Head from 'next/head'
+import Link from 'next/link'
 import styles from '../styles/Home.module.css'
 
 export default function Home() {
@@ -7,9 +8,14 @@ export default function Home() {
       <Head>
         <title>Create Next App</title>
         <link rel="icon" href="/favicon.ico" />
+        <style>{`
+          html, body {
+            background-color: rgb(255, 255, 255);
+          }
+          `}</style>
       </Head>
 
-      <main className={styles.main}>
+      <main className={styles.main + ' bg-white'}>
         <h1 className={styles.title}>
           Welcome to <a href="https://nextjs.org">Next.js!</a>
         </h1>
@@ -20,10 +26,12 @@ export default function Home() {
         </p>
 
         <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h3>Documentation &rarr;</h3>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
+          <Link href="/login">
+            <a className={styles.card}>
+              <h3 className="text-red-600">ACES Login &rarr;</h3>
+              <p className="text-blue-600">Find in-depth information about Next.js features and API.</p>
+            </a>
+          </Link>
 
           <a href="https://nextjs.org/learn" className={styles.card}>
             <h3>Learn &rarr;</h3>
@@ -60,6 +68,7 @@ export default function Home() {
           <img src="/vercel.svg" alt="Vercel Logo" className={styles.logo} />
         </a>
       </footer>
+
     </div>
   )
 }

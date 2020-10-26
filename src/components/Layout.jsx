@@ -22,19 +22,32 @@ export default class Layout extends React.Component {
     window.removeEventListener('scroll', this.handleScroll, false);
   }
 
+
+
   render() {
+    const mainClass = this.props.bg ? this.props.bg + ' min-h-screen' : 'min-h-screen'
+
     return (
       <>
         <Head>
           <title>{this.props.license.licenseName}</title>
         </Head>
-        <main id="aces-main">
-          <NavUser user={this.props.user} licenseName={this.props.license.licenseName} />
-          <NavLicense slug={this.props.license.slug} selected={this.props.nav} />
-          <div className="">
-            {this.props.children}
+
+        <main id="aces-main" className={mainClass}>
+          <div className="pb-40">
+            <NavUser user={this.props.user} licenseName={this.props.license.licenseName} />
+
+            <NavLicense slug={this.props.license.slug} selected={this.props.nav} />
+
+            <div id="aces-content">
+              {this.props.children}
+            </div>
           </div>
         </main>
+
+        <footer id="aces-footer" className="h-64 text-xs text-gray-500 border-t border-gray-300">
+          <p className="text-center my-6">GAIA ACES</p>
+        </footer>
       </>
     )
   }
