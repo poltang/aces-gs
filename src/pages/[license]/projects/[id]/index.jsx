@@ -12,7 +12,7 @@ export async function getStaticPaths() {
     // const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
     const rs = await db.collection('projects').find({},
       {projection: {_id: 1, license: 1}}).toArray()
-    console.log("RS", rs)
+    // console.log("RS", rs)
     const paths = rs.map((project) => ({
       params: { license: project.license, id: project._id.toString() },
     }))
@@ -37,11 +37,11 @@ export async function getStaticProps({ params }) {
       }},
       { $unwind: '$client' },
     ]).toArray()
-    console.log("RS", rs.length)
+    // console.log("RS", rs.length)
     const project = JSON.parse( JSON.stringify(rs[0]) )
-    console.log("project", project)
+    // console.log("project", project)
     // project = JSON.parse( project )
-    console.log(project)
+    // console.log(project)
 
     return {
       props: { slug: params.license, project },
