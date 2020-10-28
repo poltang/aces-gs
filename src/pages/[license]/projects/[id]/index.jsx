@@ -16,7 +16,7 @@ export async function getStaticPaths() {
     const paths = rs.map((project) => ({
       params: { license: project.license, id: project._id.toString() },
     }))
-    console.log("PATHS", paths)
+    console.log("PATHS", paths.length)
     return { paths, fallback: true }
   } catch (error) {
     throw error
