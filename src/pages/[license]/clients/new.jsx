@@ -11,7 +11,7 @@ export async function getStaticPaths() {
   const { db } = await connect()
   try {
     const rs = await db.collection('licenses').find({}, {projection: {_id: 0, slug: 1}}).toArray()
-    console.log(rs)
+    // console.log(rs)
     const paths = rs.map((license) => ({
       params: { license: license.slug },
     }))
@@ -28,7 +28,7 @@ export async function getStaticProps({ params }) {
   try {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
     const license = JSON.parse( JSON.stringify(rs) )
-    console.log("license", license)
+    // console.log("license", license)
 
     return {
       props: { info: {
