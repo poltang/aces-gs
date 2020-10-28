@@ -1,14 +1,18 @@
+import Link from 'next/link'
+
 export default function ProjectCard({ slug, project }) {
   return (
     <div className="mb-6 md:mb-10">
       <div className="relative bg-blue-300 bg-opacity-25 rounded-xl hover:-m-1 hover:p-1">
         <div className="relative bg-white shadow rounded-lg border border-gray-400 hover:border-blue-300 px-6 pt-4">
           <span className="float-right rounded-md border text-sm text-gray-600 leading-4 mt-1 px-4 py-2">Settings</span>
-          <h4 className="text-xl text-gray-700 font-bold mb-8">{project.title}</h4>
+          <Link href="/[license]/projects/[id]" as={`/${project.license}/projects/${project._id}`}>
+            <a className="text-gray-700 hover:text-blue-600"><h4 className="text-xl font-bold mb-8">{project.title}</h4></a>
+          </Link>
           <div className="">
             <p className="text-sm leading-normal">
               <span className="bg-yellow-s200 inline-block w-20 text-rights text-gray-700 pr-3">Client:</span>
-              <span className="text-gray-700 font-semibolds">{project.clientId}</span>
+              <span className="text-gray-700 font-semibold">{project.client ? project.client.name : project.clientId}</span>
             </p>
             <p className="text-sm leading-normal">
               <span className="bg-yellow-s200 inline-block w-20 text-rights text-gray-700 pr-3">Contact:</span>

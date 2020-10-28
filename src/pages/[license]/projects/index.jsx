@@ -23,18 +23,10 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let info = JSON.stringify(rs)
-    info = JSON.parse(info)
-    console.log(info)
-
-    // const rs2 = await db.collection('projects').find({license: info.slug}).sort({ _id: -1 }).toArray()
-    const rs2 = await db.collection('projects').find({license: params.license}).sort({ _id: -1 }).toArray()
-    let projects = JSON.stringify(rs2)
-    projects = JSON.parse(projects)
-    console.log("PROJECTS", projects)
+    const rs = await db.collection('projects').find({license: params.license}).sort({ _id: -1 }).toArray()
+    const projects = JSON.parse( JSON.stringify(rs) )
     return {
-      props: { info, projects },
+      props: { slug: params.license, projects },
       revalidate: 3, // In seconds
     }
   } catch (error) {
@@ -43,13 +35,13 @@ export async function getStaticProps({ params }) {
 }
 
 //
-export default function Projects({ info, projects }) {
+export default function Projects({ slug, projects }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!info || !user || info?.slug != user?.license) return NotFound
+  if(!user || user.license != slug) return NotFound
 
   return (
-    <Layout license={info} nav="projects">
+    <Layout user={user} nav="projects">
       <div className="relative sbg-indigos-100 sbg-opacity-25">
         {/* <div className="GRADIENT w-full absolute py-24 z-0 bg-gradient-to-b from-indigo-100 opacity-25">
           <div className="h-64"></div>

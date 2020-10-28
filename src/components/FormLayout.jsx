@@ -1,7 +1,16 @@
 import React from 'react'
 import Head from 'next/head'
-import NavLicense from 'components/NavLicense'
-import NavUser from './NavUser'
+
+/*
+FormLayout need info params which, in minimal, consists of licenseSlug and
+licenseName.
+Additional fields can be added as needed.
+{
+  projectId: '5f96b1d29c15410cf1081384',
+  licenseSlug: 'sdi',
+  licenseName: 'Sedya Duta Indonesia'
+}
+*/
 
 export default class FormLayout extends React.Component {
 
@@ -18,7 +27,7 @@ export default class FormLayout extends React.Component {
                 <span className="rounded-sm bg-blue-800 bg-opacity-25 text-white border-l border-b border-gray-100 px-2 py-1">ACES Form</span>
               </div>
               <h1 className="text-xl text-center text-blue-900 font-semibold opacity-50 mb-8">
-                {this.props.license.licenseName}
+                {this.props.info.licenseName}
               </h1>
             </div>
             <div className="max-w-xl mx-auto">

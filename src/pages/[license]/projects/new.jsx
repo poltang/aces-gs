@@ -27,35 +27,37 @@ export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let license = JSON.stringify(rs)
-    license = JSON.parse(license)
-    console.log(license)
+    const license = JSON.parse( JSON.stringify(rs) )
+    console.log("license", license)
 
     return {
-      props: { license }
+      props: { info: {
+        licenseSlug: license.slug,
+        licenseName: license.licenseName,
+      }}
     }
   } catch (error) {
     throw error
   }
 }
 
-export default function NewProject({ license }) {
+export default function NewProject({ info }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!license || !user || license.slug != user?.license) return NotFound
+  if(!info || !user || info.licenseSlug != user?.license) return NotFound
 
   return (
-    <FormLayout license={license}>
-      <Form license={license} user={user} />
+    <FormLayout info={info}>
+      <Form license={info} user={user} />
     </FormLayout>
   )
 }
 
-const Form = ({ license, user }) => {
+const Form = ({ user }) => {
   const router = useRouter()
   const [clientType, setClientType] = useState(null)
   const [projectData, setProjectData] = useState({
-    license: license.slug,
+    license: user.license,
     clientId: '',
     contractId: '',
     path: '',
@@ -121,7 +123,7 @@ const Form = ({ license, user }) => {
       body: JSON.stringify(body),
     })
     console.log(response)
-    router.push(`/${license.slug}/projects`)
+    router.push(`/${user.license}/projects`)
   }
 
   return (
@@ -133,7 +135,7 @@ const Form = ({ license, user }) => {
             <p className="text-gray-600 text-sm">User: <span className="text-blue-600 font-bold">{user.username}</span></p>
           </div>
           <div className="flex-0">
-            <Link href="/[license]" as={`/${license.slug}`}>
+            <Link href="/[license]" as={`/${user.license}`}>
               <a className="rounded-md border text-sm text-gray-600 hover:border-gray-500 hover:text-gray-700 px-3 py-1">
                 Cancel
               </a>
@@ -223,7 +225,7 @@ const Form = ({ license, user }) => {
         <form>
           <div className="flex flex-row items-center rounded-b-md bg-gray-100 border-t border-gray-300 px-6 py-6">
             <div className="flex-grow">
-              <Link href="/[license]" as={`/${license.slug}`}>
+              <Link href="/[license]" as={`/${user.license}`}>
                 <a className="inline-block rounded-md border text-gray-500 font-semibold hover:border-gray-500 hover:text-gray-700 px-4 py-2">
                   Cancel
                 </a>
@@ -235,6 +237,7 @@ const Form = ({ license, user }) => {
             </div>
           </div>
         </form>
+        {/* <pre className="pre">{JSON.stringify(user, null, 2)}</pre> */}
       </div>
     </div>
   )
