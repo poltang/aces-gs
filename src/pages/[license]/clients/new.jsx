@@ -27,31 +27,33 @@ export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
     const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let license = JSON.stringify(rs)
-    license = JSON.parse(license)
-    console.log(license)
+    const license = JSON.parse( JSON.stringify(rs) )
+    console.log("license", license)
 
     return {
-      props: { license }
+      props: { info: {
+        licenseSlug: license.slug,
+        licenseName: license.licenseName,
+      }}
     }
   } catch (error) {
     throw error
   }
 }
 
-export default function NewClient({ license }) {
+export default function NewClient({ info }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!license || !user || license.slug != user?.license) return NotFound
+  if(!info || !user || info.licenseSlug != user?.license) return NotFound
 
   return (
-    <FormLayout license={license}>
-      <Form license={license} user={user} />
+    <FormLayout info={info}>
+      <Form user={user} />
     </FormLayout>
   )
 }
 
-const Form = ({ license, user }) => {
+const Form = ({ user }) => {
   const router = useRouter()
   const [contactShow, setContactShow] = useState(false)
   const [contactList, setContactList] = useState([])
@@ -101,7 +103,7 @@ const Form = ({ license, user }) => {
   async function handleSubmit(e) {
     e.preventDefault()
     const body = {
-      license: license.slug,
+      license: user.license,
       name: document.getElementById("client-name").value,
       phone: document.getElementById("client-phone").value,
       address: document.getElementById("client-address").value,
@@ -115,7 +117,7 @@ const Form = ({ license, user }) => {
       body: JSON.stringify(body),
     })
     console.log(response)
-    router.push(`/${license.slug}/clients`)
+    router.push(`/${user.license}/clients`)
   }
 
   return (
@@ -127,7 +129,7 @@ const Form = ({ license, user }) => {
             <p className="text-gray-600 text-sm">User: <span className="text-blue-600 font-bold">{user.username}</span></p>
           </div>
           <div className="flex-0">
-            <Link href="/[license]/clients" as={`/${license.slug}/clients`}>
+            <Link href="/[license]/clients" as={`/${user.license}/clients`}>
               <a className="rounded-md border text-sm text-gray-600 hover:border-gray-500 hover:text-gray-700 px-3 py-1">
                 Cancel
               </a>
@@ -209,7 +211,7 @@ const Form = ({ license, user }) => {
         <form>
           <div className="flex flex-row items-center border-t border-gray-400 px-6 py-8">
             <div className="flex-grow">
-              <Link href="/[license]/clients" as={`/${license.slug}/clients`}>
+              <Link href="/[license]/clients" as={`/${user.license}/clients`}>
                 <a className="inline-block rounded-md border text-gray-500 font-semibold hover:border-gray-500 hover:text-gray-700 px-4 py-2">
                   Cancel
                 </a>

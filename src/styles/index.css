@@ -25,16 +25,19 @@ body {
   /* background-color: rgba(130, 142, 155); */
 }
 #aces-main {
-  background-color: rgb(246, 249, 252);
+  background-color: rgb(247, 251, 252);
 }
 #aces-main.white {
   background-color: rgb(255, 255, 255);
 }
 #aces-footer {
   /* background-color: rgb(243, 246, 249); */
-  background-color: rgb(237, 241, 250);
+  background-color: rgb(237, 241, 247);
 }
-
+.project-nav {
+  background: linear-gradient(90deg,#ec6192 4.44%,#ec4c34 21.45%,#ffbd2b 37.21%,#ebde56 54.63%,#57c754 70.8%,#53a1eb 84.07%) 0 100% transparent no-repeat;
+  background-size: 100% 2px;
+}
 th, td {
   padding: 8px;
   text-align: left;

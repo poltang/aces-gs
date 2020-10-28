@@ -28,12 +28,8 @@ export async function getStaticProps({ params }) {
     info = JSON.parse(info)
     console.log(info)
 
-    const rs2 = await db.collection('clients').find({license: info.slug}).sort({_id: -1}).toArray()
-    let clients = JSON.stringify(rs2)
-    clients = JSON.parse(clients)
-    console.log("PROJECTS", clients)
     return {
-      props: { info, clients },
+      props: { licenseInfo: info },
       revalidate: 3, // In seconds
     }
   } catch (error) {
@@ -42,13 +38,13 @@ export async function getStaticProps({ params }) {
 }
 
 //
-export default function Settings({ info }) {
+export default function Settings({ licenseInfo }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!info || !user || info.slug != user?.license) return NotFound
+  if(!licenseInfo || !user || licenseInfo.slug != user?.license) return NotFound
 
   return (
-    <Layout bg="white" license={info} user={user} nav="settings">
+    <Layout bg="white" user={user} nav="settings">
       <div className="max-w-5xl mx-auto antialiased pt-10 px-4 sm:px-6">
         <div className="flex flex-row">
           <div className="w-full sm:w-32 md:w-48">
@@ -56,17 +52,17 @@ export default function Settings({ info }) {
               License Settings
             </p>
             <div className="flex flex-col text-gray-600 leading-base">
-              <Link href="/[license]/settings/license" as={`/${info.slug}/settings/license`}>
+              <Link href="/[license]/settings/license" as={`/${user.license}/settings/license`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 text-gray-900 font-semibold hover:text-indigo-400">
                   License
                 </a>
               </Link>
-              <Link href="/[license]/settings/users" as={`/${info.slug}/settings/users`}>
+              <Link href="/[license]/settings/users" as={`/${user.license}/settings/users`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 hover:text-indigo-400">
                   Users
                 </a>
               </Link>
-              <Link href="/[license]/settings/billing" as={`/${info.slug}/settings/billing`}>
+              <Link href="/[license]/settings/billing" as={`/${user.license}/settings/billing`}>
                 <a className="py-6 sm:py-3 border-b sm:border-0 hover:text-indigo-400">
                   Billing
                 </a>
@@ -84,7 +80,7 @@ export default function Settings({ info }) {
                     <span className="inline-block w-48 rounded-r border-t border-r border-b px-3 py-1">gaia-ng</span>
                   </p>
                 </div>
-                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-6 bg-gray-100 border-t">
+                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-4 bg-gray-100 border-t">
                   <span className="flex-grow">Maksimum 16 karakter</span>
                   <button className="flex-0 rounded-md bg-gray-700 border border-gray-700 hover:bg-white hover:text-gray-700 text-white px-8 py-1">Save</button>
                 </div>
@@ -97,7 +93,7 @@ export default function Settings({ info }) {
                     <span className="inline-block w-64 rounded border px-3 py-1">PT Gaia New Generation</span>
                   </p>
                 </div>
-                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-6 bg-gray-100 border-t">
+                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-4 bg-gray-100 border-t">
                   <span className="flex-grow">Maksimum 32 karakter</span>
                   <button className="flex-0 rounded-md bg-gray-700 border border-gray-700 hover:bg-white hover:text-gray-700 text-white px-8 py-1">Save</button>
                 </div>
@@ -110,7 +106,7 @@ export default function Settings({ info }) {
                     <span className="inline-block w-full rounded border px-3 py-1">PT Gaia New Generation</span>
                   </p>
                 </div>
-                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-6 bg-gray-100 border-t">
+                <div className="flex flex-row items-center text-sm px-6 pt-4 pb-4 bg-gray-100 border-t">
                   <span className="flex-grow">Maksimum 32 karakter</span>
                   <button className="flex-0 rounded-md bg-gray-700 border border-gray-700 hover:bg-white hover:text-gray-700 text-white px-8 py-1">Save</button>
                 </div>

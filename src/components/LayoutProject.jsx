@@ -1,9 +1,9 @@
 import React from 'react'
 import Head from 'next/head'
-import NavLicense from 'components/NavLicense'
+import NavProject from 'components/NavProject'
 import NavUser from './NavUser'
 
-export default class Layout extends React.Component {
+export default class LayoutProject extends React.Component {
 
   handleScroll = function(e) {
     if (window.pageYOffset > 55) {
@@ -39,7 +39,7 @@ export default class Layout extends React.Component {
             {/* <NavUser user={this.props.user} licenseName={this.props.user.licenseName} /> */}
             <NavUser user={this.props.user} />
 
-            <NavLicense slug={this.props.user.license} selected={this.props.nav} />
+            <NavProject project={this.props.project} selected={this.props.nav} />
 
             <div id="aces-content">
               {this.props.children}

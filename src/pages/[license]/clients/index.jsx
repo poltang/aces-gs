@@ -23,17 +23,11 @@ export async function getStaticPaths() {
 export async function getStaticProps({ params }) {
   const { db } = await connect()
   try {
-    const rs = await db.collection('licenses').findOne({ slug: params.license })
-    let info = JSON.stringify(rs)
-    info = JSON.parse(info)
-    console.log(info)
+    const rs = await db.collection('clients').find({license: params.license}).sort({_id: -1}).toArray()
+    const clients = JSON.parse( JSON.stringify(rs) )
 
-    const rs2 = await db.collection('clients').find({license: info.slug}).sort({_id: -1}).toArray()
-    let clients = JSON.stringify(rs2)
-    clients = JSON.parse(clients)
-    console.log("PROJECTS", clients)
     return {
-      props: { info, clients },
+      props: { slug: params.license, clients },
       revalidate: 3, // In seconds
     }
   } catch (error) {
@@ -42,14 +36,14 @@ export async function getStaticProps({ params }) {
 }
 
 //
-export default function Clients({ info, clients }) {
+export default function Clients({ slug, clients }) {
   const { user } = useUser({ redirecTo: "/login" })
 
-  if(!info || !user || info.slug != user?.license) return NotFound
+  if(!user || user.license != slug) return NotFound
   // href={`/[license]/[projectId]${href}`} as={`${prefix}${href}`}>
 
   return (
-    <Layout license={info} user={user} nav="clients">
+    <Layout user={user} nav="clients">
       <div className="bg-white pb-4 border-b border-gray-400">
         <div className="max-w-5xl mx-auto antialiased pt-6 px-4 sm:px-6">
           <div className="flex flex-col">
@@ -62,8 +56,9 @@ export default function Clients({ info, clients }) {
               </div>
             </div>
             <div className="flex justify-center sm:justify-end mt-8">
-              <Link href="/[license]/clients/new" as={`/${info.slug}/clients/new`}>
-                <a className="rounded px-3 py-2 border border-gray-400 hover:border-gray-700 text-sm text-gray-500 hover:text-gray-700">
+              <Link href="/[license]/clients/new" as={`/${slug}/clients/new`}>
+                <a className={"rounded px-3 py-2 border border-gray-400 " +
+                "hover:border-gray-700 text-sm text-gray-500 hover:text-gray-700"}>
                   Add New Client
                 </a>
               </Link>
@@ -104,8 +99,6 @@ export default function Clients({ info, clients }) {
           ))}
           </tbody>
         </table>
-
-        {/* <pre className="pre">{JSON.stringify(clients, null, 2)}</pre> */}
       </div>
     </Layout>
   )

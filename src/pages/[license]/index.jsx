@@ -34,8 +34,24 @@ export async function getStaticProps({ params }) {
     info = JSON.parse(info)
     console.log(info)
 
-    // const rs2 = await db.collection('projects').find({license: info.slug}).sort({_id: -1}).toArray()
-    const rs2 = await db.collection('projects').find({license: params.license}).sort({_id: -1}).toArray()
+    // const rs2 = await db.collection('projects').find(
+    //   {license: params.license},
+    //   {limit: 3},
+    // ).sort({_id: -1}).toArray()
+    const rs2 = await db.collection('projects').aggregate([
+      { $match: {license: params.license}},
+      { $sort: { _id: -1 }},
+      { $limit: 10 },
+      { $lookup: {
+        localField: 'clientId',
+        from: 'clients',
+        foreignField: '_id',
+        as: 'client'
+      }},
+      { $unwind: '$client' },
+      // { $project: { modules: -1 }}
+    ]).toArray()
+    console.log("RS2", rs2)
     const projects = JSON.parse( JSON.stringify(rs2) )
     return {
       props: { info, projects },
@@ -54,7 +70,8 @@ export default function License({ info, projects }) {
   if(!info || !user || info?.slug != user?.license) return NotFound
 
   return (
-    <Layout license={info} nav="license">
+    // <Layout license={info} nav="license">
+    <Layout user={user} nav="license">
     {/* HERO */}
       <div className="bg-white pb-16 border-b border-gray-300">
         <div className="max-w-5xl mx-auto antialiased py-3 px-4 sm:px-6">
@@ -131,6 +148,8 @@ export default function License({ info, projects }) {
               habitasse curae mi primis nascetur vivamus quisque ipsum erat.</p>
         </div>
       </div>
+
+      {/* <pre className="pre">{JSON.stringify(projects, null, 2)}</pre> */}
     </Layout>
   )
 }

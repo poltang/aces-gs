@@ -3,7 +3,7 @@ import { useRouter } from 'next/router'
 import fetchJson from 'lib/fetchJson'
 import useUser from 'lib/useUser'
 
-export default function NavUser({ user, licenseName }) {
+export default function NavUser({ user }) {
   const router = useRouter()
   const { mutateUser} = useUser({ redirecTo: `${user?.license}` })
 
@@ -14,7 +14,9 @@ export default function NavUser({ user, licenseName }) {
           <div className="flex flex-grow items-center">
             <div id="ac-logo" className="h-8 w-16 mr-4 bg-gray-200"></div>
             <div className="flex-grow">
-              <span className="text-gray-800 font-semibold">{licenseName}</span>
+              <Link href={`/${user.license}`}>
+                <a className="text-gray-800 font-semibold">{user.licenseName}</a>
+              </Link>
             </div>
           </div>
           <div className="flex flex-row flex-0 flex-end">
